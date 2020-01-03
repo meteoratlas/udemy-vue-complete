@@ -62,7 +62,12 @@
             <section class="row log">
                 <div class="small-12 columns">
                     <ul>
-                        <li v-for="message in messages">{{message}}</li>
+                        <li
+                            :class="message.player ? 'player-turn' : 'monster-turn'"
+                            v-for="message in messages"
+                        >
+                            {{message.msg}}
+                        </li>
                     </ul>
                 </div>
             </section>

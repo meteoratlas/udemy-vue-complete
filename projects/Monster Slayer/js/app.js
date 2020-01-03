@@ -17,7 +17,10 @@ new Vue({
             this.monsterHP -= attack;
             this.checkWinLose(attack);
             if (!this.gameOver) {
-                this.messages.unshift(`Player hit monster for ${attack}!`);
+                this.messages.unshift({
+                    player: true,
+                    msg: `Player hit monster for ${attack}!`
+                });
             }
             this.monsterAttack();
         },
@@ -25,9 +28,10 @@ new Vue({
             if (this.gameOver) return;
             this.playerHP += this.playerHealPower;
             if (this.playerHP > 100) this.playerHP = 100;
-            this.messages.unshift(
-                `Player healed themselves for ${this.playerHealPower}!`
-            );
+            this.messages.unshift({
+                player: true,
+                msg: `Player healed themselves for ${this.playerHealPower}!`
+            });
             this.monsterAttack();
         },
         monsterAttack: function() {
@@ -39,20 +43,25 @@ new Vue({
             this.playerHP -= attack;
             this.checkWinLose(attack);
             if (!this.gameOver)
-                this.messages.unshift(`Monster hit player for ${attack}!`);
+                this.messages.unshift({
+                    player: false,
+                    msg: `Monster hit player for ${attack}!`
+                });
         },
         checkWinLose: function(attack) {
             if (this.playerHP <= 0) {
                 this.gameOver = true;
-                this.messages.unshift(
-                    `Monster hit player for ${attack} - you are defeated!`
-                );
+                this.messages.unshift({
+                    player: false,
+                    msg: `Monster hit player for ${attack} - you are defeated!`
+                });
             }
             if (this.monsterHP <= 0) {
                 this.gameOver = true;
-                this.messages.unshift(
-                    `Player hit monster for ${attack}, defeating it! Monster was vanquished!`
-                );
+                this.messages.unshift({
+                    player: true,
+                    msg: `Player hit monster for ${attack}, defeating it! Monster was vanquished!`
+                });
             }
         },
         resetGame: function() {
